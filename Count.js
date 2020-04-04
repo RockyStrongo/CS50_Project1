@@ -11,7 +11,7 @@ class Count extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      count: 0,
+      count : 1500000,
 	  running: 'Y',
     }
   }
@@ -56,10 +56,20 @@ alert ('please stop the counter')
 	}
 }
   
+   // incrementCount = () => {
+	//	this.setState(prevState => ({count:new Date().toLocaleString()}))  }
   
   incrementCount = () => {
-    this.setState(prevState => ({count: prevState.count + 1}))
-  }
+		//var now = new Date().getTime()
+		//var d = new Date()
+		//d.setHours(d.getHours(),d.getMinutes()+25,d.getSeconds(),d.getMilliseconds())
+		//var distance = d - now
+		//var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+		//var seconds = Math.floor((distance % (1000 * 60)) / 1000)
+		//this.setState(prevState => ({min: minutes}))
+		//this.setState(prevState => ({sec: seconds}))
+		this.setState(prevState => ({count:prevState-1}))		
+	  }
 
   stop = () => {
 	this.setState(prevState => ({count: 0}))
