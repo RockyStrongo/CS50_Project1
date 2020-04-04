@@ -1,6 +1,7 @@
 import React from 'react'
-import {StyleSheet, Text, View, Button} from 'react-native'
+import {StyleSheet, Text, View, Button, Vibration} from 'react-native'
 import PropTypes from 'prop-types'
+
 
 const styles = StyleSheet.create({
   text: {fontSize: 72},
@@ -15,6 +16,8 @@ class Count extends React.Component {
 	  min : 0,
 	  sec : 0,
 	  running: 0,
+	  timeforbreak: 0,
+	  timeforwork: 1,
     }
   }
 
@@ -56,10 +59,19 @@ render() {
   }
   
   start(){
-		var d = new Date()
-		d.setHours(d.getHours(),d.getMinutes()+25,d.getSeconds(),d.getMilliseconds())
+	  if(this.state.timeforwork == 1){
+ 		var d = new Date()
+		d.setHours(d.getHours(),d.getMinutes(),d.getSeconds()+10,d.getMilliseconds())
 		this.setState(state => ({timefinish: d}))
-		this.setState(state => ({running: 1}))
+		this.setState(state => ({running: 1})) 
+	  }
+	  else if(this.state.timeforbreak == 1){
+		var d = new Date()
+		d.setHours(d.getHours(),d.getMinutes(),d.getSeconds()+5,d.getMilliseconds())
+		this.setState(state => ({timefinish: d}))
+		this.setState(state => ({running: 1}))  
+	  }
+
   }
   
   countdown = () => {
@@ -71,11 +83,16 @@ if(this.state.running == 1){
 		var seconds = Math.floor((distance % (1000 * 60)) / 1000)
 		this.setState(state => ({min: minutes}))
 		this.setState(state => ({sec: seconds}))
+  		this.setState(state => ({timeforbreak: 0}))
+   		this.setState(state => ({timeforwork: 1}))
 	} 
 
 	  if(this.state.running == 1 && this.state.sec == 0 && this.state.min == 0 ){
 		  alert('Work period is over, get a break!');
+		  Vibration.vibrate()
 		  this.setState(state => ({running: 0}))
+  		  this.setState(state => ({timeforbreak: 1}))
+   		  this.setState(state => ({timeforwork: 0}))
 		  
 	} 
 }
