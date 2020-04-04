@@ -11,27 +11,30 @@ class Count extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      count : 1500000,
-	  running: 'Y',
+	  timefinish: new Date(),
+	  min : 0,
+	  sec : 0,
+	  running: 0,
     }
   }
 
-  render() {
+render() {
     return (
 	
 	<View>
-	<Button title="Start"   /*onPress={() => {
+	<Button title="Start"   onPress={() => {
     this.start();
-  }}*/>
+  }}>
   </Button>
 	<Button title="Stop" onPress={() => {
     this.stop();
   }}></Button>	
   	<Button title="Reset" onPress={() => {
     this.resetme();
-  }}></Button>	
-      <Text style={styles.text}>
-		  {this.state.count}
+  }}
+	></Button>	
+      <Text style={styles.text} isfinished={this.props.finished}>
+		  {this.state.min+' min '+this.state.sec+' sec'}
       </Text>
 	  </View>
     )
@@ -39,51 +42,44 @@ class Count extends React.Component {
 
 
   componentDidMount() {
-	  if(this.state.running === 'Y' ){
-		  this.interval = setInterval(this.incrementCount, 1000)
-	  } else {
-			alert ('what')
-	  }
+	  this.interval = setInterval(this.countdown, 1000)
   }
   
-componentDidUpdate(prevProps, prevState) {
-  if (prevState.running !== this.state.running) {
-alert ('please stop the counter')  
+  stop(){
+		this.setState(state => ({running: 0}))
+  }
+  
+    resetme(){
+		this.setState(state => ({running: 0}))
+		this.setState(state => ({min: 0}))
+		this.setState(state => ({sec: 0}))
+  }
+  
+  start(){
+		var d = new Date()
+		d.setHours(d.getHours(),d.getMinutes()+25,d.getSeconds(),d.getMilliseconds())
+		this.setState(state => ({timefinish: d}))
+		this.setState(state => ({running: 1}))
+  }
+  
+  countdown = () => {
+if(this.state.running == 1){
+		var now = new Date().getTime()
+		var timetofinish = this.state.timefinish
+		var distance = timetofinish - now
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000)
+		this.setState(state => ({min: minutes}))
+		this.setState(state => ({sec: seconds}))
+	} 
+
+	  if(this.state.running == 1 && this.state.sec == 0 && this.state.min == 0 ){
+		  alert('Work period is over, get a break!');
+		  this.setState(state => ({running: 0}))
+		  
+	} 
 }
 
-	if(this.state.count === 25){
-			alert('you should have a break now')
-	}
-}
-  
-   // incrementCount = () => {
-	//	this.setState(prevState => ({count:new Date().toLocaleString()}))  }
-  
-  incrementCount = () => {
-		//var now = new Date().getTime()
-		//var d = new Date()
-		//d.setHours(d.getHours(),d.getMinutes()+25,d.getSeconds(),d.getMilliseconds())
-		//var distance = d - now
-		//var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-		//var seconds = Math.floor((distance % (1000 * 60)) / 1000)
-		//this.setState(prevState => ({min: minutes}))
-		//this.setState(prevState => ({sec: seconds}))
-		this.setState(prevState => ({count:prevState-1}))		
-	  }
-
-  stop = () => {
-	this.setState(prevState => ({count: 0}))
-    this.setState(state => ({running: 'N'}))
-  }
-  
-    resetme = () => {
-	this.setState(prevState => ({count: 0}))
-  }
-  
-    componentWillUnmount() {
-    clearInterval(this.interval)
-  }
-  
 }
 
 
