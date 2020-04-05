@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
 })
 
 
+
+
 class Count extends React.Component {
   constructor(props) {
     super(props)
@@ -23,7 +25,7 @@ class Count extends React.Component {
 
 render() {
     return (
-	
+
 	<View>
 	<Button title="Start"   onPress={() => {
     this.start();
@@ -31,11 +33,11 @@ render() {
   </Button>
 	<Button title="Stop" onPress={() => {
     this.stop();
-  }}></Button>	
+  }}></Button>
   	<Button title="Reset" onPress={() => {
     this.resetme();
   }}
-	></Button>	
+	></Button>
       <Text style={styles.text} isfinished={this.props.finished}>
 		  {this.state.min+' min '+this.state.sec+' sec'}
       </Text>
@@ -47,33 +49,33 @@ render() {
   componentDidMount() {
 	  this.interval = setInterval(this.countdown, 1000)
   }
-  
+
   stop(){
 		this.setState(state => ({running: 0}))
   }
-  
+
     resetme(){
 		this.setState(state => ({running: 0}))
 		this.setState(state => ({min: 0}))
 		this.setState(state => ({sec: 0}))
   }
-  
+
   start(){
 	  if(this.state.timeforwork == 1){
  		var d = new Date()
-		d.setHours(d.getHours(),d.getMinutes(),d.getSeconds()+10,d.getMilliseconds())
+		d.setHours(d.getHours(),d.getMinutes()+25,d.getSeconds(),d.getMilliseconds())
 		this.setState(state => ({timefinish: d}))
-		this.setState(state => ({running: 1})) 
+		this.setState(state => ({running: 1}))
 	  }
 	  else if(this.state.timeforbreak == 1){
 		var d = new Date()
-		d.setHours(d.getHours(),d.getMinutes(),d.getSeconds()+5,d.getMilliseconds())
+		d.setHours(d.getHours(),d.getMinutes()+5,d.getSeconds(),d.getMilliseconds())
 		this.setState(state => ({timefinish: d}))
-		this.setState(state => ({running: 1}))  
+		this.setState(state => ({running: 1}))
 	  }
 
   }
-  
+
   countdown = () => {
 if(this.state.running == 1){
 		var now = new Date().getTime()
@@ -85,7 +87,7 @@ if(this.state.running == 1){
 		this.setState(state => ({sec: seconds}))
   		this.setState(state => ({timeforbreak: 0}))
    		this.setState(state => ({timeforwork: 1}))
-	} 
+	}
 
 	  if(this.state.running == 1 && this.state.sec == 0 && this.state.min == 0 ){
 		  alert('Work period is over, get a break!');
@@ -93,8 +95,8 @@ if(this.state.running == 1){
 		  this.setState(state => ({running: 0}))
   		  this.setState(state => ({timeforbreak: 1}))
    		  this.setState(state => ({timeforwork: 0}))
-		  
-	} 
+
+	}
 }
 
 }
