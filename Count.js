@@ -102,13 +102,13 @@ class Count extends React.Component {
   start(){
     if(this.state.timeforwork == 1){
       var d = new Date()
-      d.setHours(d.getHours(),d.getMinutes(),d.getSeconds()+10,d.getMilliseconds())
+      d.setHours(d.getHours(),d.getMinutes()+25,d.getSeconds(),d.getMilliseconds())
       this.setState(state => ({timefinish: d}))
       this.setState(state => ({running: 1}))
     }
     else if(this.state.timeforbreak == 1){
       var d = new Date()
-      d.setHours(d.getHours(),d.getMinutes(),d.getSeconds()+5,d.getMilliseconds())
+      d.setHours(d.getHours(),d.getMinutes()+5,d.getSeconds()+5,d.getMilliseconds())
       this.setState(state => ({timefinish: d}))
       this.setState(state => ({running: 1}))
     }
