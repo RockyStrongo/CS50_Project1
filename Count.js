@@ -102,13 +102,13 @@ class Count extends React.Component {
   start(){
     if(this.state.timeforwork == 1){
       var d = new Date()
-      d.setHours(d.getHours(),d.getMinutes()+25,d.getSeconds(),d.getMilliseconds())
+      d.setHours(d.getHours(),d.getMinutes(),d.getSeconds()+10,d.getMilliseconds())
       this.setState(state => ({timefinish: d}))
       this.setState(state => ({running: 1}))
     }
     else if(this.state.timeforbreak == 1){
       var d = new Date()
-      d.setHours(d.getHours(),d.getMinutes()+5,d.getSeconds(),d.getMilliseconds())
+      d.setHours(d.getHours(),d.getMinutes(),d.getSeconds()+5,d.getMilliseconds())
       this.setState(state => ({timefinish: d}))
       this.setState(state => ({running: 1}))
     }
@@ -126,18 +126,23 @@ class Count extends React.Component {
       //var seconds = this.numtotext[seconds]
       this.setState(state => ({min: minutes}))
       this.setState(state => ({sec: seconds}))
-      this.setState(state => ({timeforbreak: 0}))
-      this.setState(state => ({timeforwork: 1}))
     }
 
-    if(this.state.running == 1 && this.state.sec == 0 && this.state.min == 0 ){
+    if(this.state.running == 1 && this.state.sec == 0 && this.state.min == 0 && this.state.timeforwork == 1){
       alert('Work period is over, get a break!');
       Vibration.vibrate()
       this.setState(state => ({running: 0}))
       this.setState(state => ({timeforbreak: 1}))
       this.setState(state => ({timeforwork: 0}))
-
     }
+    if(this.state.running == 1 && this.state.sec == 0 && this.state.min == 0 && this.state.timeforbreak == 1){
+      alert('Break period is over, start working!');
+      Vibration.vibrate()
+      this.setState(state => ({running: 0}))
+      this.setState(state => ({timeforbreak: 0}))
+      this.setState(state => ({timeforwork: 1}))
+    }
+
   }
 
 }
